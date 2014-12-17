@@ -13,16 +13,18 @@ tap<-tapply(csv.data$steps,csv.data$date,sum)
 hist(tap,main = paste("Histogram of total number of  \n steps taken each day"),xlab="Total steps per day",col="dark blue")
 tap<-tap[!is.na(tap)]
 ```
-    
+ ![Plot for Histogram](figures/histogram1.png)   
 Mean total number of steps per day
 ```{r,echo=FALSE}
 print(mean(tap))
+## [1] 10766.19
 ```
-  
+
 Median total number of steps per day 
 ```{r,echo=FALSE}
 print(median(tap))
 
+## [1] 10765
 ```
 
 ### **Average Daily activity pattern**  
@@ -36,17 +38,23 @@ plot(agg$Group.1,agg$x,type="n",xlab="Time Interval",ylab="Average number of ste
 lines(agg$Group.1,agg$x,type="l")
 
 ```
-  
+  ![Plot for Time Series](figures/Time%20Series%20Plot.png)   
+ 
 **Interval with maximum number of  Daily average steps**  
 ```{r,echo=TRUE}
 agg[which.max(agg$x),]
+##     Group.1        x
+## 104   08:35 206.1698
 ```
-
 
 On average across all days,the time interval from 8:35 to 8:40 has the maximum number steps.
 
 ```{r,echo=FALSE}
 agg[103:105,]
+##     Group.1        x
+## 103   08:30 177.3019
+## 104   08:35 206.1698
+## 105   08:40 195.9245
 ```
 
 ### **Imputing missing values**    
@@ -54,8 +62,9 @@ agg[103:105,]
 **Calculating the total number of "NA" values in the dataset  **
 ```{r}
 sum(is.na(csv.data$steps))
+## [1] 2304
 ```
-    
+
   **Strategy**  
   
    The strategy implemented here is  
@@ -87,13 +96,16 @@ datanew<-data1[,c(1,3,4)]##New dataset is created
  totalsteps<-tapply(datanew$meanSteps,datanew$date,sum)
  hist(totalsteps,main = paste("Histogram of total number of  \n steps taken each day after imputing"),xlab="Total steps per day",col="red")
 ```
+  ![Plot for Histogram After Imputing](figures/Histogram%20After%20Imputing.png)   
   
 **Mean and Median values of total steps taken each day after imputing**    
 ```{r,echo=TRUE}
 mean(totalsteps)
 median(totalsteps)
+## [1] 9354.23
+## [1] 10395
 ```
-  
+
   The values of mean and Median do change after imputing as compared to the first part. If we compare both the histograms plotted, we can see the change in shape .  
   Earlier, the data with "NA's" was dropped from the calculationsof mean/sum/median.After imputing with the daily mean, where the missing data has been filled with O, is considered as an observation and is not dropped from the calculations of mean/sum/median. 
   
@@ -114,8 +126,8 @@ library(lattice)
 xyplot(aggdat$x~aggdat$Group.1|aggdat$Group.2,layout=c(1,2),type="l",xlab="Interval",ylab="Number of Steps")
 ```
 
-  
-  
+  ![Panel Plot](figures/panelplot.png)   
+
    
   
    
